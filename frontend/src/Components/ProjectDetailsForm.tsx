@@ -26,12 +26,11 @@ interface ProjectDetailsFormProps {
   projectDetails: ProjectDetails;
   setProjectDetails: (details: ProjectDetails) => void;
 }
-
 export function ProjectDetailsForm({ projectDetails, setProjectDetails }: ProjectDetailsFormProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const updateField = (field: keyof ProjectDetails, value: any) => {
+  const updateField = <K extends keyof ProjectDetails>(field: K, value: ProjectDetails[K]) => {
     setProjectDetails({ ...projectDetails, [field]: value });
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
