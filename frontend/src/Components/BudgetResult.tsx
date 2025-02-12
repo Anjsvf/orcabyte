@@ -6,7 +6,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { convertCurrency } from "../utils/CurrencyUtils";
 import { ProjectFactors } from "../Types";
-
+import { calculateDaysDifference, applyUrgencyFactor } from "../utils/CurrencyUtils";
 
 const formatCurrency = (value: number, currency: string) => {
   if (currency === "BRL") {
@@ -39,9 +39,10 @@ export function BudgetResult({
     const factors = ProjectFactors[projectDetails.type];
     let cost = 0;
 
-    cost += complexity * projectDetails.hourlyRate * factors.baseHours;
+    
+cost += (complexity / 5) * projectDetails.hourlyRate * factors.baseHours;
 
-
+  
     if (!projectDetails.hasDesign) {
       if (projectDetails.willFreelancerDesign) {
         cost += factors.designHours * projectDetails.hourlyRate;
@@ -49,7 +50,6 @@ export function BudgetResult({
         cost += projectDetails.externalDesignerCost;
       }
     }
-
 
     if (["web"].includes(projectDetails.type)) {
       if (!projectDetails.hasServer) {
@@ -61,14 +61,17 @@ export function BudgetResult({
       }
     }
 
- 
     if (["web"].includes(projectDetails.type)) {
       if (!projectDetails.hasDomain) {
         cost += projectDetails.domainCost;
       }
     }
 
+    // Aplicar fator de urgência com base na diferença de dias
+    const daysDifference = calculateDaysDifference(projectDetails.deadline);
+    cost = applyUrgencyFactor(daysDifference, cost);
 
+    // Converter moeda
     const convertedCost = convertCurrency(cost, "USD", projectDetails.currency);
     return convertedCost;
   };
@@ -91,37 +94,24 @@ export function BudgetResult({
 
   const handleExportAsPDF = async () => {
     if (budgetImageRef.current) {
-    
       const canvas = await html2canvas(budgetImageRef.current, {
         scale: 2,
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff'
       });
-
-   
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
-
-   
       const pageWidth = 210; 
       const pageHeight = 297;
-      
-
       const imgWidth = pageWidth;
       const imgHeight = (canvasHeight * pageWidth) / canvasWidth;
-
       const pdf = new jsPDF('p', 'mm', 'a4');
-      
-   
+
       if (imgHeight > pageHeight) {
-   
         const newImgWidth = (canvasWidth * pageHeight) / canvasHeight;
         const newImgHeight = pageHeight;
-        
-       
         const xOffset = (pageWidth - newImgWidth) / 2;
-        
         pdf.addImage(
           canvas.toDataURL('image/jpeg', 1.0),
           'JPEG',
@@ -131,9 +121,7 @@ export function BudgetResult({
           newImgHeight
         );
       } else {
-    
         const yOffset = (pageHeight - imgHeight) / 2;
-        
         pdf.addImage(
           canvas.toDataURL('image/jpeg', 1.0),
           'JPEG',
@@ -144,10 +132,12 @@ export function BudgetResult({
         );
       }
 
-
       pdf.save(`${projectDetails.title}-budget.pdf`);
     }
   };
+
+  
+  const daysDifference = calculateDaysDifference(projectDetails.deadline);
 
   return (
     <div className="space-y-6 p-4 sm:p-6">
@@ -171,9 +161,18 @@ export function BudgetResult({
                 <dt className="text-sm text-gray-500">Prazo Final</dt>
                 <dd className="text-gray-900">{projectDetails.deadline}</dd>
               </div>
+              <div>
+                <dt className="text-sm text-gray-500">Diferença de Dias</dt>
+                <dd className="text-gray-900">{daysDifference} dias</dd>
+              </div>
+              <div>
+                <dt className="text-sm text-gray-500">Fator de Urgência</dt>
+                <dd className="text-gray-900">
+                  {daysDifference <= 15 ? "50%" : daysDifference <= 30 ? "20%" : "Nenhum"}
+                </dd>
+              </div>
             </dl>
           </div>
-
           <div>
             <h4 className="font-medium text-gray-700 mb-2">Divisão de Custos</h4>
             <dl className="space-y-2">
@@ -197,7 +196,6 @@ export function BudgetResult({
           </div>
         </div>
       </div>
-
       <div className="space-y-4">
         <h4 className="text-lg font-medium text-gray-900">
           Visualização do Orçamento Compartilhável
@@ -207,7 +205,6 @@ export function BudgetResult({
           complexity={complexity}
           budgetImageRef={budgetImageRef}
         />
-
         <div className="flex flex-col sm:flex-row justify-end space-y-4 sm:space-y-0 sm:space-x-4">
           <button
             onClick={onShare}
@@ -231,7 +228,6 @@ export function BudgetResult({
             Exporte em PDF
           </button>
         </div>
-
         {showShareSuccess && (
           <div className="fixed bottom-4 right-4 bg-green-100 border border-green-200 text-green-700 px-4 py-2 rounded-lg shadow-lg flex items-center">
             <span className="mr-2">Compartilhado com sucesso!</span>
