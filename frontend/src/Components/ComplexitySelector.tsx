@@ -9,7 +9,7 @@ export function ComplexitySelector({ complexity, setComplexity }: ComplexitySele
   return (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-4">
+        <label className="block text-sm font-medium text-gray-600 mb-4">
         Nível de complexidade do projeto (1-5)
         </label>
         <input
@@ -18,7 +18,7 @@ export function ComplexitySelector({ complexity, setComplexity }: ComplexitySele
           max="5"
           value={complexity}
           onChange={(e) => setComplexity(Number(e.target.value))}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+          className="w-full h-2 bg-purple-600 rounded-lg appearance-none cursor-pointer"
         />
         <div className="flex justify-between mt-2 text-sm text-gray-600">
           <span>Simples</span>

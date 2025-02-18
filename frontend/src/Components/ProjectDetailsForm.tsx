@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { ProjectDetails, ProjectType } from "../Types";
 import {
   Calendar,
@@ -29,12 +29,18 @@ interface ProjectDetailsFormProps {
 
 interface StepProps {
   projectDetails: ProjectDetails;
-  updateField: <K extends keyof ProjectDetails>(field: K, value: ProjectDetails[K]) => void;
+  updateField: <K extends keyof ProjectDetails>(
+    field: K,
+    value: ProjectDetails[K]
+  ) => void;
   errors: Record<string, string>;
 }
 
-
-const BasicInformationStep: React.FC<StepProps> = ({ projectDetails, updateField, errors }) => {
+const BasicInformationStep: React.FC<StepProps> = ({
+  projectDetails,
+  updateField,
+  errors,
+}) => {
   return (
     <div className="space-y-6">
       <div>
@@ -45,12 +51,14 @@ const BasicInformationStep: React.FC<StepProps> = ({ projectDetails, updateField
         <input
           type="text"
           className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600 ${
-            errors.title ? 'border-red-500' : ''
+            errors.title ? "border-red-500" : ""
           }`}
           value={projectDetails.title}
-          onChange={(e) => updateField('title', e.target.value)}
+          onChange={(e) => updateField("title", e.target.value)}
         />
-        {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+        {errors.title && (
+          <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+        )}
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
@@ -59,13 +67,15 @@ const BasicInformationStep: React.FC<StepProps> = ({ projectDetails, updateField
         </label>
         <textarea
           className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600 ${
-            errors.description ? 'border-red-500' : ''
+            errors.description ? "border-red-500" : ""
           }`}
           rows={4}
           value={projectDetails.description}
-          onChange={(e) => updateField('description', e.target.value)}
+          onChange={(e) => updateField("description", e.target.value)}
         />
-        {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+        {errors.description && (
+          <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+        )}
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
@@ -75,20 +85,25 @@ const BasicInformationStep: React.FC<StepProps> = ({ projectDetails, updateField
         <select
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600"
           value={projectDetails.type}
-          onChange={(e) => updateField('type', e.target.value as ProjectType)}
+          onChange={(e) => updateField("type", e.target.value as ProjectType)}
         >
-          <option value="web">Aplicativo Web</option>
+          <option value="web">Landing Page</option>
           <option value="mobile">Aplicativo Móvel</option>
           <option value="desktop">Software de Área de Trabalho</option>
-          <option value="other">Outros</option>
+          <option value="frontend">Frontend</option>
+          <option value="backend">Backend</option>
+          <option value="fullstack">Fullstack</option>
         </select>
       </div>
     </div>
   );
 };
 
-
-const PrazoCustoStep: React.FC<StepProps> = ({ projectDetails, updateField, errors }) => {
+const PrazoCustoStep: React.FC<StepProps> = ({
+  projectDetails,
+  updateField,
+  errors,
+}) => {
   return (
     <div className="space-y-6">
       <div>
@@ -99,12 +114,14 @@ const PrazoCustoStep: React.FC<StepProps> = ({ projectDetails, updateField, erro
         <input
           type="date"
           className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600 ${
-            errors.deadline ? 'border-red-500' : ''
+            errors.deadline ? "border-red-500" : ""
           }`}
           value={projectDetails.deadline}
-          onChange={(e) => updateField('deadline', e.target.value)}
+          onChange={(e) => updateField("deadline", e.target.value)}
         />
-        {errors.deadline && <p className="text-red-500 text-sm mt-1">{errors.deadline}</p>}
+        {errors.deadline && (
+          <p className="text-red-500 text-sm mt-1">{errors.deadline}</p>
+        )}
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
@@ -114,12 +131,14 @@ const PrazoCustoStep: React.FC<StepProps> = ({ projectDetails, updateField, erro
         <input
           type="number"
           className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600 ${
-            errors.hourlyRate ? 'border-red-500' : ''
+            errors.hourlyRate ? "border-red-500" : ""
           }`}
           value={projectDetails.hourlyRate}
-          onChange={(e) => updateField('hourlyRate', Number(e.target.value))}
+          onChange={(e) => updateField("hourlyRate", Number(e.target.value))}
         />
-        {errors.hourlyRate && <p className="text-red-500 text-sm mt-1">{errors.hourlyRate}</p>}
+        {errors.hourlyRate && (
+          <p className="text-red-500 text-sm mt-1">{errors.hourlyRate}</p>
+        )}
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
@@ -129,7 +148,9 @@ const PrazoCustoStep: React.FC<StepProps> = ({ projectDetails, updateField, erro
         <select
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600"
           value={projectDetails.currency}
-          onChange={(e) => updateField('currency', e.target.value as "USD" | "BRL")}
+          onChange={(e) =>
+            updateField("currency", e.target.value as "USD" | "BRL")
+          }
         >
           <option value="USD">USD (Dólar)</option>
           <option value="BRL">BRL (Real Brasileiro)</option>
@@ -139,19 +160,22 @@ const PrazoCustoStep: React.FC<StepProps> = ({ projectDetails, updateField, erro
   );
 };
 
-
-const DesignStep: React.FC<StepProps> = ({ projectDetails, updateField, errors }) => {
+const DesignStep: React.FC<StepProps> = ({
+  projectDetails,
+  updateField,
+  errors,
+}) => {
   return (
     <div className="space-y-6">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-          <Paintbrush className="w-5 h-5 mr-2 text-purple-600" />
-          O cliente já possui um design?
+          <Paintbrush className="w-5 h-5 mr-2 text-purple-600" />O cliente já
+          possui um design?
         </label>
         <select
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600"
           value={projectDetails.hasDesign.toString()}
-          onChange={(e) => updateField('hasDesign', e.target.value === "true")}
+          onChange={(e) => updateField("hasDesign", e.target.value === "true")}
         >
           <option value="true">Sim</option>
           <option value="false">Não</option>
@@ -167,7 +191,9 @@ const DesignStep: React.FC<StepProps> = ({ projectDetails, updateField, errors }
             <select
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600"
               value={projectDetails.willFreelancerDesign.toString()}
-              onChange={(e) => updateField('willFreelancerDesign', e.target.value === "true")}
+              onChange={(e) =>
+                updateField("willFreelancerDesign", e.target.value === "true")
+              }
             >
               <option value="true">Sim</option>
               <option value="false">Não</option>
@@ -182,13 +208,17 @@ const DesignStep: React.FC<StepProps> = ({ projectDetails, updateField, errors }
               <input
                 type="number"
                 className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600 ${
-                  errors.externalDesignerCost ? 'border-red-500' : ''
+                  errors.externalDesignerCost ? "border-red-500" : ""
                 }`}
                 value={projectDetails.externalDesignerCost}
-                onChange={(e) => updateField('externalDesignerCost', Number(e.target.value))}
+                onChange={(e) =>
+                  updateField("externalDesignerCost", Number(e.target.value))
+                }
               />
               {errors.externalDesignerCost && (
-                <p className="text-red-500 text-sm mt-1">{errors.externalDesignerCost}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.externalDesignerCost}
+                </p>
               )}
             </div>
           )}
@@ -198,19 +228,22 @@ const DesignStep: React.FC<StepProps> = ({ projectDetails, updateField, errors }
   );
 };
 
-
-const InfraestruturaStep: React.FC<StepProps> = ({ projectDetails, updateField, errors }) => {
+const InfraestruturaStep: React.FC<StepProps> = ({
+  projectDetails,
+  updateField,
+  errors,
+}) => {
   return (
     <div className="space-y-6">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-          <Server className="w-5 h-5 mr-2 text-purple-600" />
-          O cliente já possui um servidor?
+          <Server className="w-5 h-5 mr-2 text-purple-600" />O cliente já possui
+          um servidor?
         </label>
         <select
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600"
           value={projectDetails.hasServer.toString()}
-          onChange={(e) => updateField('hasServer', e.target.value === "true")}
+          onChange={(e) => updateField("hasServer", e.target.value === "true")}
         >
           <option value="true">Sim</option>
           <option value="false">Não</option>
@@ -226,7 +259,12 @@ const InfraestruturaStep: React.FC<StepProps> = ({ projectDetails, updateField, 
             <select
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600"
               value={projectDetails.willFreelancerSetupServer.toString()}
-              onChange={(e) => updateField('willFreelancerSetupServer', e.target.value === "true")}
+              onChange={(e) =>
+                updateField(
+                  "willFreelancerSetupServer",
+                  e.target.value === "true"
+                )
+              }
             >
               <option value="true">Sim</option>
               <option value="false">Não</option>
@@ -241,25 +279,31 @@ const InfraestruturaStep: React.FC<StepProps> = ({ projectDetails, updateField, 
               <input
                 type="number"
                 className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600 ${
-                  errors.hostingCost ? 'border-red-500' : ''
+                  errors.hostingCost ? "border-red-500" : ""
                 }`}
                 value={projectDetails.hostingCost}
-                onChange={(e) => updateField('hostingCost', Number(e.target.value))}
+                onChange={(e) =>
+                  updateField("hostingCost", Number(e.target.value))
+                }
               />
-              {errors.hostingCost && <p className="text-red-500 text-sm mt-1">{errors.hostingCost}</p>}
+              {errors.hostingCost && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.hostingCost}
+                </p>
+              )}
             </div>
           )}
         </>
       )}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-          <Globe className="w-5 h-5 mr-2 text-purple-600" />
-          O cliente já possui um domínio?
+          <Globe className="w-5 h-5 mr-2 text-purple-600" />O cliente já possui
+          um domínio?
         </label>
         <select
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600"
           value={projectDetails.hasDomain.toString()}
-          onChange={(e) => updateField('hasDomain', e.target.value === "true")}
+          onChange={(e) => updateField("hasDomain", e.target.value === "true")}
         >
           <option value="true">Sim</option>
           <option value="false">Não</option>
@@ -274,33 +318,37 @@ const InfraestruturaStep: React.FC<StepProps> = ({ projectDetails, updateField, 
           <input
             type="number"
             className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-purple-600 focus:ring-purple-600 ${
-              errors.domainCost ? 'border-red-500' : ''
+              errors.domainCost ? "border-red-500" : ""
             }`}
             value={projectDetails.domainCost}
-            onChange={(e) => updateField('domainCost', Number(e.target.value))}
+            onChange={(e) => updateField("domainCost", Number(e.target.value))}
           />
-          {errors.domainCost && <p className="text-red-500 text-sm mt-1">{errors.domainCost}</p>}
+          {errors.domainCost && (
+            <p className="text-red-500 text-sm mt-1">{errors.domainCost}</p>
+          )}
         </div>
       )}
     </div>
   );
 };
 
-
-
-export function ProjectDetailsForm({ projectDetails, setProjectDetails }: ProjectDetailsFormProps) {
+export function ProjectDetailsForm({
+  projectDetails,
+  setProjectDetails,
+}: ProjectDetailsFormProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
- 
-  const updateField = <K extends keyof ProjectDetails>(field: K, value: ProjectDetails[K]) => {
+  const updateField = <K extends keyof ProjectDetails>(
+    field: K,
+    value: ProjectDetails[K]
+  ) => {
     setProjectDetails({ ...projectDetails, [field]: value });
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
 
- 
   const validateStep = () => {
     const newErrors: Record<string, string> = {};
 
@@ -331,8 +379,12 @@ export function ProjectDetailsForm({ projectDetails, setProjectDetails }: Projec
       case 2:
         if (!projectDetails.hasDesign) {
           if (!projectDetails.willFreelancerDesign) {
-            if (!projectDetails.externalDesignerCost || projectDetails.externalDesignerCost <= 0) {
-              newErrors.externalDesignerCost = "Custo de designer externo é obrigatório";
+            if (
+              !projectDetails.externalDesignerCost ||
+              projectDetails.externalDesignerCost <= 0
+            ) {
+              newErrors.externalDesignerCost =
+                "Custo de designer externo é obrigatório";
             }
           }
         }
@@ -340,7 +392,10 @@ export function ProjectDetailsForm({ projectDetails, setProjectDetails }: Projec
       case 3:
         if (!projectDetails.hasServer) {
           if (!projectDetails.willFreelancerSetupServer) {
-            if (!projectDetails.hostingCost || projectDetails.hostingCost <= 0) {
+            if (
+              !projectDetails.hostingCost ||
+              projectDetails.hostingCost <= 0
+            ) {
               newErrors.hostingCost = "Custo de hospedagem é obrigatório";
             }
           }
@@ -361,40 +416,65 @@ export function ProjectDetailsForm({ projectDetails, setProjectDetails }: Projec
 
   const handleNext = () => {
     if (validateStep()) {
-      setCurrentStep(prev => Math.min(steps.length - 1, prev + 1));
+      setCurrentStep((prev) => Math.min(steps.length - 1, prev + 1));
     }
   };
 
   const handlePrevious = () => {
-    setCurrentStep(prev => Math.max(0, prev - 1));
+    setCurrentStep((prev) => Math.max(0, prev - 1));
     setErrors({});
   };
 
-  
   const steps = [
     {
       title: "Informações Básicas",
       description: "Detalhes essenciais do projeto",
-      component: <BasicInformationStep projectDetails={projectDetails} updateField={updateField} errors={errors} />,
+      component: (
+        <BasicInformationStep
+          projectDetails={projectDetails}
+          updateField={updateField}
+          errors={errors}
+        />
+      ),
     },
     {
       title: "Prazos e Custos",
       description: "Definição de prazos e valores",
-      component: <PrazoCustoStep projectDetails={projectDetails} updateField={updateField} errors={errors} />,
+      component: (
+        <PrazoCustoStep
+          projectDetails={projectDetails}
+          updateField={updateField}
+          errors={errors}
+        />
+      ),
     },
     {
       title: "Design",
       description: "Informações sobre o design do projeto",
-      component: <DesignStep projectDetails={projectDetails} updateField={updateField} errors={errors} />,
+      condition: ["frontend", "fullstack", "web", "mobile"].includes(
+        projectDetails.type
+      ),
+      component: (
+        <DesignStep
+          projectDetails={projectDetails}
+          updateField={updateField}
+          errors={errors}
+        />
+      ),
     },
     {
       title: "Infraestrutura",
       description: "Configurações de servidor e domínio",
-      
-      condition: ["web"].includes(projectDetails.type),
-      component: <InfraestruturaStep projectDetails={projectDetails} updateField={updateField} errors={errors} />,
+      condition: ["backend", "fullstack", "web"].includes(projectDetails.type),
+      component: (
+        <InfraestruturaStep
+          projectDetails={projectDetails}
+          updateField={updateField}
+          errors={errors}
+        />
+      ),
     },
-  ].filter(step => step.condition === undefined || step.condition);
+  ].filter((step) => step.condition === undefined || step.condition);
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
@@ -409,9 +489,7 @@ export function ProjectDetailsForm({ projectDetails, setProjectDetails }: Projec
         </div>
       </CardHeader>
 
-      <CardContent>
-        {steps[currentStep].component}
-      </CardContent>
+      <CardContent>{steps[currentStep].component}</CardContent>
 
       <CardFooter className="flex justify-between">
         <button
@@ -427,7 +505,7 @@ export function ProjectDetailsForm({ projectDetails, setProjectDetails }: Projec
           disabled={currentStep === steps.length - 1}
           className="flex items-center px-4 py-2 text-sm font-medium text-white bg-purple-600 border border-transparent rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 disabled:opacity-50"
         >
-          {currentStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
+          {currentStep === steps.length - 1 ? "Finalizar" : "Próximo"}
           <ChevronRight className="w-4 h-4 ml-2" />
         </button>
       </CardFooter>

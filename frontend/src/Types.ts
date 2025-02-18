@@ -1,5 +1,5 @@
 export type Step = "details" | "complexity" | "ai-suggestion" | "result";
-export type ProjectType = "web" | "mobile" | "desktop" | "other";
+export type ProjectType = "web" | "mobile" | "desktop" | "frontend" | "backend" | "fullstack";
 
 export interface ProjectDetails {
   title: string;
@@ -47,12 +47,28 @@ export const ProjectFactors = {
     externalDesignerCost: 600,
     hostingCost: 0,
   },
-  other: {
-    baseHours: 40,
+  frontend: {
+    baseHours: 60, // Exemplo: 60 horas para desenvolvimento frontend
     designHours: 10,
-    serverSetupHours: 5,
+    serverSetupHours: 0,
     domainCost: 0,
-    externalDesignerCost: 300,
+    externalDesignerCost: 400,
+    hostingCost: 0,
+  },
+  backend: {
+    baseHours: 80, // Exemplo: 80 horas para desenvolvimento backend
+    designHours: 0,
+    serverSetupHours: 10,
+    domainCost: 0,
+    externalDesignerCost: 0,
+    hostingCost: 100,
+  },
+  fullstack: {
+    baseHours: 120, // Exemplo: 120 horas para desenvolvimento fullstack
+    designHours: 10,
+    serverSetupHours: 10,
+    domainCost: 0,
+    externalDesignerCost: 400,
     hostingCost: 100,
   },
 };

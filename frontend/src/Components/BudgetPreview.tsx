@@ -42,7 +42,7 @@ export function BudgetPreview({
       }
     }
 
-    if (["web"].includes(projectDetails.type)) {
+    if (["web", "fullstack"].includes(projectDetails.type)) {
       if (!projectDetails.hasServer) {
         if (projectDetails.willFreelancerSetupServer) {
           cost += factors.serverSetupHours * projectDetails.hourlyRate;
@@ -52,16 +52,16 @@ export function BudgetPreview({
       }
     }
 
-    if (["web"].includes(projectDetails.type)) {
+    if (["web", "fullstack"].includes(projectDetails.type)) {
       if (!projectDetails.hasDomain) {
         cost += projectDetails.domainCost;
       }
     }
 
-    // Aplicar fator de urgência com base na diferença de dias
+  
     cost = applyUrgencyFactor(daysDifference, cost);
 
-    // Converter moeda
+
     return convertCurrency(cost, "USD", projectDetails.currency);
   };
 
