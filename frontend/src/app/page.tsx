@@ -73,7 +73,7 @@ function App() {
       <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="bg-[#aba4d0d7] rounded-lg shadow-xl p-8">
           <div className="flex items-center mb-8">
-            <Calculator className="w-8 h-8 text-purple-500 mr-3" />
+            <Calculator className="w-8 h-8 text-purple-600 mr-3" />
             <h1 className="text-2xl font-bold text-gray-900">Orçabyte</h1>
           </div>
           <StepIndicator currentStep={currentStep} steps={steps} />
