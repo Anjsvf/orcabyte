@@ -6,7 +6,7 @@ interface AIAnalysisProps {
   currency: "USD" | "BRL";
   hourlyRate: number;
   language?: "pt" | "en";
-  estimatedHours?: number; // Add optional custom hours
+  estimatedHours?: number; 
 }
 
 export function AIAnalysis({ 
@@ -30,7 +30,6 @@ export function AIAnalysis({
       return estimatedHours;
     }
     
-    // Default calculation
     if (complexity <= 2) return 40;
     if (complexity <= 4) return 80; 
     return 120; 
