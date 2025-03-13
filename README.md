@@ -44,6 +44,13 @@ A collection of utility functions for handling currency and time calculations:
 - `calculateDaysDifference`: Calculates the number of days between dates
 - `applyUrgencyFactor`: Adjusts costs based on project urgency
 
+### ProjectUtils
+
+Utility functions for project management:
+- `calculateBaseHours`: Determines base hours needed based on project type and complexity
+- `calculateTotalCost`: Computes the final project cost including all factors
+- `validateProjectDetails`: Ensures all required project information is provided
+
 ## Data Models
 
 ### ProjectDetails
@@ -81,13 +88,30 @@ The application features a professional UI with:
 - Visual elements like icons to enhance readability
 - Gradient backgrounds and subtle shadows for depth
 
+## Export Features
+
+The application provides multiple ways to share and export budget proposals:
+- Screenshot capture of the budget preview
+- PDF export with detailed breakdown
+- Email sharing functionality
+- Direct link generation for client access
+
+## Internationalization
+
+OrcaByte supports multiple languages and currency formats:
+- English and Portuguese language interfaces
+- USD and BRL currency display with proper formatting
+- Date formatting according to locale preferences
+- Automatic currency conversion based on current exchange rates
+
 ## Future Enhancements
 
 Potential improvements could include:
 - Saving and comparing multiple budget versions
-- Exporting budgets as PDF documents
 - Integration with project management tools
 - More detailed breakdown of tasks and timelines
 - Client approval workflow
+- Historical data analysis for better estimation accuracy
+- Mobile application for on-the-go budget creation
 
 
