@@ -48,7 +48,7 @@ export const ProjectFactors = {
     hostingCost: 0,
   },
   frontend: {
-    baseHours: 60, // Exemplo: 60 horas para desenvolvimento frontend
+    baseHours: 60,
     designHours: 10,
     serverSetupHours: 0,
     domainCost: 0,
@@ -56,7 +56,7 @@ export const ProjectFactors = {
     hostingCost: 0,
   },
   backend: {
-    baseHours: 80, // Exemplo: 80 horas para desenvolvimento backend
+    baseHours: 80,
     designHours: 0,
     serverSetupHours: 10,
     domainCost: 0,
@@ -64,7 +64,7 @@ export const ProjectFactors = {
     hostingCost: 100,
   },
   fullstack: {
-    baseHours: 120, // Exemplo: 120 horas para desenvolvimento fullstack
+    baseHours: 120, 
     designHours: 10,
     serverSetupHours: 10,
     domainCost: 0,
