@@ -61,45 +61,67 @@ export function AIAnalysis({
           ? `Título do projeto: ${projectDetails.title}. 
              Descrição: ${projectDetails.description}. 
              Tipo: ${projectDetails.type}. 
-             Prazo: ${projectDetails.deadline}.`
+             Prazo: ${projectDetails.deadline}.
+             Taxa horária: ${projectDetails.currency === "USD" ? "$" : "R$"}${projectDetails.hourlyRate}.
+             Moeda: ${projectDetails.currency === "USD" ? "Dólar" : "Real"}.`
           : `Project title: ${projectDetails.title}. 
              Description: ${projectDetails.description}. 
              Type: ${projectDetails.type}. 
-             Deadline: ${projectDetails.deadline}.`;
+             Deadline: ${projectDetails.deadline}.
+             Hourly rate: ${projectDetails.currency === "USD" ? "$" : "R$"}${projectDetails.hourlyRate}.
+             Currency: ${projectDetails.currency === "USD" ? "Dollar" : "Brazilian Real"}.`;
              
       
         if (projectDetails.hasDesign !== undefined) {
           projectContext += language === "pt"
             ? ` O cliente ${projectDetails.hasDesign ? 'já tem' : 'não tem'} design.`
             : ` The client ${projectDetails.hasDesign ? 'already has' : 'does not have'} design.`;
+            
+          if (!projectDetails.hasDesign) {
+            projectContext += language === "pt"
+              ? ` ${projectDetails.willFreelancerDesign ? 'Você criará o design.' : 'Um designer externo criará o design por um custo de ' + projectDetails.currency + ' ' + projectDetails.externalDesignerCost + '.'}`
+              : ` ${projectDetails.willFreelancerDesign ? 'You will create the design.' : 'An external designer will create the design for a cost of ' + projectDetails.currency + ' ' + projectDetails.externalDesignerCost + '.'}`;
+          }
         }
         
         if (projectDetails.hasServer !== undefined && ["web", "fullstack"].includes(projectDetails.type)) {
           projectContext += language === "pt"
             ? ` O cliente ${projectDetails.hasServer ? 'já tem' : 'não tem'} servidor.`
             : ` The client ${projectDetails.hasServer ? 'already has' : 'does not have'} a server.`;
+            
+          if (!projectDetails.hasServer) {
+            projectContext += language === "pt"
+              ? ` ${projectDetails.willFreelancerSetupServer ? 'Você configurará o servidor.' : 'Um serviço externo será usado para hospedagem por um custo de ' + projectDetails.currency + ' ' + projectDetails.hostingCost + '.'}`
+              : ` ${projectDetails.willFreelancerSetupServer ? 'You will set up the server.' : 'An external service will be used for hosting at a cost of ' + projectDetails.currency + ' ' + projectDetails.hostingCost + '.'}`;
+          }
         }
         
         if (projectDetails.hasDomain !== undefined && ["web", "fullstack"].includes(projectDetails.type)) {
           projectContext += language === "pt"
             ? ` O cliente ${projectDetails.hasDomain ? 'já tem' : 'não tem'} domínio.`
             : ` The client ${projectDetails.hasDomain ? 'already has' : 'does not have'} a domain.`;
+            
+          if (!projectDetails.hasDomain) {
+            projectContext += language === "pt"
+              ? ` O custo do domínio será de ${projectDetails.currency} ${projectDetails.domainCost}.`
+              : ` The domain cost will be ${projectDetails.currency} ${projectDetails.domainCost}.`;
+          }
         }
       }
       
       const prompt = language === "pt" 
         ? `Com base nas seguintes informações do projeto: ${projectContext} 
            Complexidade: ${complexity}/5. 
-           Orçamento: ${currency === "USD" ? "$" : "R$"}${budget}. 
-           Prazo: ${getTimeline()}.
+           Orçamento total estimado: ${currency === "USD" ? "$" : "R$"}${budget}. 
+           Prazo estimado: ${getTimeline()}.
            
-           Dê uma dica profissional específica e útil sobre como gerenciar este projeto com eficiência, considerando suas características particulares.`
+           Dê uma dica profissional específica e útil sobre como gerenciar este projeto com eficiência, considerando suas características particulares. Inclua sugestões sobre como lidar com os prazos, orçamento e requisitos específicos deste projeto.`
         : `Based on the following project information: ${projectContext} 
            Complexity: ${complexity}/5. 
-           Budget: ${currency === "USD" ? "$" : "R$"}${budget}. 
-           Timeline: ${getTimeline()}.
+           Estimated total budget: ${currency === "USD" ? "$" : "R$"}${budget}. 
+           Estimated timeline: ${getTimeline()}.
            
-           Give a specific and useful professional tip on how to efficiently manage this project, considering its particular characteristics.`;
+           Give a specific and useful professional tip on how to efficiently manage this project, considering its particular characteristics. Include suggestions on how to handle deadlines, budget, and specific requirements for this project.`;
       
       const response = await fetch("https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2", {
         method: "POST",
@@ -183,8 +205,52 @@ export function AIAnalysis({
           {projectDetails && (
             <div className="bg-white p-4 rounded mb-4">
               <h4 className="font-medium text-gray-900 mb-2">{texts.projectContext}</h4>
-              <p className="text-gray-600 mb-2">{projectDetails.title}</p>
-              <p className="text-gray-500 text-sm">{projectDetails.description}</p>
+              <div className="space-y-2">
+                <p className="text-gray-600 font-medium">{projectDetails.title}</p>
+                <p className="text-gray-500 text-sm">{projectDetails.description}</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 text-sm">
+                  <div>
+                    <span className="text-gray-500">Tipo:</span>
+                    <span className="ml-2 font-medium">{projectDetails.type}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500">Prazo:</span>
+                    <span className="ml-2 font-medium">{projectDetails.deadline}</span>
+                  </div>
+                  {["web", "fullstack", "frontend", "mobile"].includes(projectDetails.type) && (
+                    <div>
+                      <span className="text-gray-500">Design:</span>
+                      <span className="ml-2 font-medium">
+                        {projectDetails.hasDesign 
+                          ? "Cliente já possui" 
+                          : projectDetails.willFreelancerDesign 
+                            ? "Você criará" 
+                            : "Designer externo"}
+                      </span>
+                    </div>
+                  )}
+                  {["web", "fullstack", "backend"].includes(projectDetails.type) && (
+                    <>
+                      <div>
+                        <span className="text-gray-500">Servidor:</span>
+                        <span className="ml-2 font-medium">
+                          {projectDetails.hasServer 
+                            ? "Cliente já possui" 
+                            : projectDetails.willFreelancerSetupServer 
+                              ? "Você configurará" 
+                              : "Serviço externo"}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">Domínio:</span>
+                        <span className="ml-2 font-medium">
+                          {projectDetails.hasDomain ? "Cliente já possui" : "Será adquirido"}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
           )}
           

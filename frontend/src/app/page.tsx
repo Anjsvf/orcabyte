@@ -94,7 +94,8 @@ function App() {
               <AIAnalysis
                 complexity={complexity}
                 currency={projectDetails.currency}
-                hourlyRate={projectDetails.hourlyRate} 
+                hourlyRate={projectDetails.hourlyRate}
+                projectDetails={projectDetails}
               />
             )}
             {currentStep === "result" && (
